@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Food</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">Smart Food Tracker</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="alerts.html">Expiry Alerts</a></li>
+      <li><a href="recipes.html">Recipes</a></li>
+      <li><a href="donate.html">Donate</a></li>
+    </ul>
+  </nav>
+
+  <!-- FORM SECTION -->
+  <section class="form-section">
+    <h1>Add a New Food Item</h1>
+    <p>Click the 🎙 next to food name or quantity and speak naturally.</p>
+
+    <form class="food-form">
+      <!-- Food Name -->
+      <label for="food">Food Name</label>
+      <div class="voice-input">
+        <input type="text" id="food" name="food" placeholder="e.g. Bread" required />
+        <button type="button" id="voiceFoodBtn" class="mic-btn" title="Speak Food Name">
+          <i class="fas fa-microphone mic-icon"></i>
+        </button>
+      </div>
+
+      <!-- Quantity -->
+      <label for="quantity">Quantity</label>
+      <div class="voice-input">
+        <input type="text" id="quantity" name="quantity" placeholder="e.g. 2 loaves" required />
+        <button type="button" id="voiceQtyBtn" class="mic-btn" title="Speak Quantity">
+          <i class="fas fa-microphone mic-icon"></i>
+        </button>
+      </div>
+
+      <p id="voice-status" class="voice-status"></p>
+
+      <!-- Purchase Date -->
+      <label for="purchase">Purchase Date</label>
+      <input type="date" id="purchase" name="purchase" required />
+
+      <!-- Expiry Date -->
+      <label for="expiry">Expiry Date</label>
+      <input type="date" id="expiry" name="expiry" required />
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn">Add Now</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 Smart Food Tracker | Keeping your food fresh 🍏
+  </footer>
+
+  <script src="js/add.js"></script>
+
+</body>
+</html>
+

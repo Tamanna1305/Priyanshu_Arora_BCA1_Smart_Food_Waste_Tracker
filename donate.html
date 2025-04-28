@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donate Surplus Food</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">Smart Food Tracker</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="track.html">Track Food</a></li>
+      <li><a href="alerts.html">Expiry Alerts</a></li>
+      <li><a href="recipes.html">Recipes</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN SECTION -->
+  <section class="form-section">
+    <h1>Donate Surplus Food</h1>
+    <p>Have extra food? Help someone in need by sharing it.</p>
+
+    <form id="donationForm" class="styled-form">
+      <label for="food">Food Item:</label>
+      <input type="text" id="food" name="food" required placeholder="e.g., Cooked Rice" />
+
+      <label for="quantity">Quantity:</label>
+      <input type="text" id="quantity" name="quantity" required placeholder="e.g., 2 boxes" />
+
+      <label for="location">Pickup Location:</label>
+      <input type="text" id="location" name="location" required placeholder="e.g., Sector 15, Gurgaon" />
+
+      <label for="datetime">Preferred Date & Time:</label>
+      <input type="datetime-local" id="datetime" name="datetime" required />
+
+      <button type="submit" class="btn">Submit Donation</button>
+    </form>
+
+    <div id="thankYouMessage" class="thank-you hidden">
+      🎉 Thank you for your generosity! We'll arrange pickup shortly.
+    </div>
+
+    <div class="total-donations" id="totalDonations"></div>
+
+    <!-- Donation History Section -->
+    <div id="donationHistory" class="donation-history">
+      <h2>Donation History</h2>
+      <table id="historyTable">
+        <thead>
+          <tr>
+            <th>Food Item</th>
+            <th>Quantity</th>
+            <th>Pickup Location</th>
+            <th>Date & Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Filled dynamically -->
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 Smart Food Tracker | Share the surplus, feed the future 💚
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/donate.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+</body>
+</html>

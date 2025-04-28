@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Food Waste Tracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">Smart Food Tracker</div>
+    <ul class="nav-links">
+      <li><a href="add.html">Add</a></li>
+      <li><a href="alerts.html">Alerts</a></li>
+      <li><a href="recipes.html">Recipes</a></li>
+      <li><a href="donate.html">Donate</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Welcome to Smart Food Waste Tracker</h1>
+    <p>Track your food, reduce waste, and make a difference 🌍</p>
+  </section>
+
+  <!-- DASHBOARD STATS -->
+  <section class="dashboard">
+    <div class="stat-box">
+      <h2 id="totalItems">0</h2>
+      <p>Items Added</p>
+    </div>
+    <div class="stat-box">
+      <h2 id="expiringSoon">0</h2>
+      <p>Expiring Soon</p>
+    </div>
+    <div class="stat-box">
+      <h2 id="totalDonations">0</h2>
+      <p>Items Donated</p>
+    </div>
+  </section>
+
+  <!-- QUICK LINKS -->
+  <section class="quick-links">
+    <a href="add.html" class="card">➕ Add Food</a>
+    <a href="alerts.html" class="card">⚠️ View Expiry Alerts</a>
+    <a href="recipes.html" class="card">🍳 Smart Recipes</a>
+    <a href="donate.html" class="card">❤️ Donate Surplus</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    Smart Food Tracker | Eat smart. Waste less. 💚
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    const items = JSON.parse(localStorage.getItem("foodItems")) || [];
+    const donations = JSON.parse(localStorage.getItem("donations")) || [];
+
+    const today = new Date().toISOString().split("T")[0];
+    const expiring = items.filter(item => item.expiry <= today).length;
+
+    document.getElementById("totalItems").textContent = items.length;
+    document.getElementById("expiringSoon").textContent = expiring;
+    document.getElementById("totalDonations").textContent = donations.length;
+  </script>
+
+</body>
+</html>

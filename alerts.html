@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Expiry Alerts</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">Smart Food Tracker</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="add.html">Add Food</a></li>
+      <li><a href="recipes.html">Recipes</a></li>
+      <li><a href="donate.html">Donate</a></li>
+    </ul>
+  </nav>
+
+  <section class="alerts-section">
+    <h1>🛎️ Expiry Alerts</h1>
+
+    <div class="alert-category expired">
+      <h2>❌ Expired</h2>
+      <div id="expiredList" class="alerts-list"></div>
+    </div>
+
+    <div class="alert-category soon">
+      <h2>⚠️ Expiring Soon (Next 3 Days)</h2>
+      <div id="expiringSoonList" class="alerts-list"></div>
+    </div>
+
+    <div class="alert-category fresh">
+      <h2>✅ Fresh Items</h2>
+      <div id="freshList" class="alerts-list"></div>
+    </div>
+  </section>
+
+  <footer>&copy; 2025 Smart Food Tracker</footer>
+
+  <script src="js/alerts.js"></script>
+  <div id="toast" class="toast"></div>
+</body>
+</html>
