@@ -52,6 +52,8 @@ body {
   list-style: none;
   display: flex;
   gap: 2rem;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links li a {
@@ -62,13 +64,15 @@ body {
   padding: 0.6rem 1.2rem;
   border-radius: 25px;
   position: relative;
-  transition: color 0.3s ease, background 0.3s ease;
+  transition: all 0.3s ease;
+  display: inline-block;
 }
 
 .nav-links li a:hover,
 .nav-links li a.active {
   color: #1a5c38;
-  background: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.2); /* transparent style */
+  box-shadow: none;
 }
 
 .nav-links li a::after {
@@ -76,7 +80,7 @@ body {
   position: absolute;
   width: 0;
   height: 2px;
-  bottom: 0;
+  bottom: 8px;
   left: 50%;
   background-color: #86efac;
   transition: width 0.3s ease, left 0.3s ease;
@@ -84,10 +88,75 @@ body {
 
 .nav-links li a:hover::after,
 .nav-links li a.active::after {
-  width: 50%;
-  left: 25%;
+  width: 60%;
+  left: 20%;
 }
 
+/* User profile styling */
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profile-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.logout-btn {
+  background-color: #1a5c38;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #16643d;
+}
+
+/* Optional: Profile container styling if not already styled */
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profile-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.logout-btn {
+  background-color: #1a5c38;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #16643d;
+}
 /* User Profile Section */
 .user-profile {
   position: relative;

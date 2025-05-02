@@ -43,7 +43,9 @@
           <option value="Rice">Rice</option>
           <option value="Other">Other (Enter custom item)</option>
         </select>
-        <button type="button" id="voiceFoodBtn" class="btn">🎤</button>
+        <button type="button" id="voiceFoodBtn" class="btn">
+          <i class="fas fa-microphone"></i>
+        </button>
       </div>
       <div id="customFoodContainer" style="display: none; margin-top: 0.5rem;">
         <label for="customFood">Custom Item:</label>
@@ -53,11 +55,13 @@
       <label for="quantity">Quantity:</label>
       <div style="display: flex; align-items: center; gap: 0.5rem;">
         <input type="text" id="quantity" name="quantity" required />
-        <button type="button" id="voiceQtyBtn" class="btn">🎤</button>
+        <button type="button" id="voiceQtyBtn" class="btn">
+          <i class="fas fa-microphone"></i>
+        </button>
       </div>
 
-      <label for="purchase">Purchase Date:</label>
-      <input type="date" id="purchase" name="purchase" required />
+      <label for="manufacturing">Manufacturing Date:</label>
+      <input type="date" id="manufacturing" name="manufacturing" required />
 
       <label for="expiry">Expiry Date:</label>
       <input type="date" id="expiry" name="expiry" required />

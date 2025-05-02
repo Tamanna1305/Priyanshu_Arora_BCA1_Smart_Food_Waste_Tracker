@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const foodValue = foodSelect.value === 'Other' ? customFoodInput.value : foodSelect.value;
+    console.log(foodValue)
     if (!foodValue) {
       showToast('Please select or enter a food item', 'error');
       return;
