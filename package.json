@@ -1,0 +1,10 @@
+{
+    "name": "smart-food-tracker-frontend",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "serve -l 4000"
+    },
+    "dependencies": {
+      "serve": "^14.2.3"
+    }
+  }

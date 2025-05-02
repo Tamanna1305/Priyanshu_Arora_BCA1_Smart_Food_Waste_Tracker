@@ -2,43 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Expiry Alerts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alerts - Smart Food Tracker</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body>
   <nav class="navbar">
     <div class="logo">Smart Food Tracker</div>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
-      <li><a href="add.html">Add Food</a></li>
+      <li><a href="add.html">Add</a></li>
+      <li><a href="alerts.html" class="active">Alerts</a></li>
       <li><a href="recipes.html">Recipes</a></li>
       <li><a href="donate.html">Donate</a></li>
     </ul>
+    <div class="user-profile">
+      <div class="profile-container">
+        <img src="profile.png" alt="Profile Avatar" class="profile-avatar">
+      <span id="userEmail">Guest</span>
+    </div>
+      <div class="dropdown">
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </div>
   </nav>
 
   <section class="alerts-section">
-    <h1>🛎️ Expiry Alerts</h1>
-
-    <div class="alert-category expired">
-      <h2>❌ Expired</h2>
-      <div id="expiredList" class="alerts-list"></div>
-    </div>
-
-    <div class="alert-category soon">
-      <h2>⚠️ Expiring Soon (Next 3 Days)</h2>
-      <div id="expiringSoonList" class="alerts-list"></div>
-    </div>
-
-    <div class="alert-category fresh">
-      <h2>✅ Fresh Items</h2>
-      <div id="freshList" class="alerts-list"></div>
-    </div>
+    <h1>Expiring Soon</h1>
+    <div id="alertsList"></div>
   </section>
 
-  <footer>&copy; 2025 Smart Food Tracker</footer>
+  <footer>
+    Smart Food Tracker | Eat smart. Waste less. 💚
+  </footer>
 
-  <script src="js/alerts.js"></script>
-  <div id="toast" class="toast"></div>
+  <script src="js/alerts.js" type="module"></script>
 </body>
 </html>

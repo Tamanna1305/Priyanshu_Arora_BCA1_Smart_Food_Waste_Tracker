@@ -2,74 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add Food</title>
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Food - Smart Food Tracker</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body>
-
-  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">Smart Food Tracker</div>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
-      <li><a href="alerts.html">Expiry Alerts</a></li>
+      <li><a href="add.html" class="active">Add</a></li>
+      <li><a href="alerts.html">Alerts</a></li>
       <li><a href="recipes.html">Recipes</a></li>
       <li><a href="donate.html">Donate</a></li>
     </ul>
+    <div class="user-profile">
+      <div class="profile-container">
+        <img src="profile.png" class="profile-avatar">
+        <span id="userEmail">Guest</span>
+      </div>
+      <div class="dropdown">
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </div>
   </nav>
 
-  <!-- FORM SECTION -->
   <section class="form-section">
-    <h1>Add a New Food Item</h1>
-    <p>Click the 🎙 next to food name or quantity and speak naturally.</p>
-
-    <form class="food-form">
-      <!-- Food Name -->
-      <label for="food">Food Name</label>
-      <div class="voice-input">
-        <input type="text" id="food" name="food" placeholder="e.g. Bread" required />
-        <button type="button" id="voiceFoodBtn" class="mic-btn" title="Speak Food Name">
-          <i class="fas fa-microphone mic-icon"></i>
-        </button>
+    <h1>Add Food Item</h1>
+    <form class="food-form styled-form">
+      <label for="food">Food Item:</label>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <select id="food" name="food" required>
+          <option value="" disabled selected>Select an item</option>
+          <option value="Bread">Bread</option>
+          <option value="Milk">Milk</option>
+          <option value="Eggs">Eggs</option>
+          <option value="Apples">Apples</option>
+          <option value="Rice">Rice</option>
+          <option value="Other">Other (Enter custom item)</option>
+        </select>
+        <button type="button" id="voiceFoodBtn" class="btn">🎤</button>
+      </div>
+      <div id="customFoodContainer" style="display: none; margin-top: 0.5rem;">
+        <label for="customFood">Custom Item:</label>
+        <input type="text" id="customFood" name="customFood" placeholder="Enter custom item" />
       </div>
 
-      <!-- Quantity -->
-      <label for="quantity">Quantity</label>
-      <div class="voice-input">
-        <input type="text" id="quantity" name="quantity" placeholder="e.g. 2 loaves" required />
-        <button type="button" id="voiceQtyBtn" class="mic-btn" title="Speak Quantity">
-          <i class="fas fa-microphone mic-icon"></i>
-        </button>
+      <label for="quantity">Quantity:</label>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <input type="text" id="quantity" name="quantity" required />
+        <button type="button" id="voiceQtyBtn" class="btn">🎤</button>
       </div>
 
-      <p id="voice-status" class="voice-status"></p>
-
-      <!-- Purchase Date -->
-      <label for="purchase">Purchase Date</label>
+      <label for="purchase">Purchase Date:</label>
       <input type="date" id="purchase" name="purchase" required />
 
-      <!-- Expiry Date -->
-      <label for="expiry">Expiry Date</label>
+      <label for="expiry">Expiry Date:</label>
       <input type="date" id="expiry" name="expiry" required />
 
-      <!-- Submit Button -->
-      <button type="submit" class="btn">Add Now</button>
+      <p id="voice-status"></p>
+      <button type="submit" class="btn">Add Item</button>
     </form>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    &copy; 2025 Smart Food Tracker | Keeping your food fresh 🍏
+    Smart Food Tracker | Eat smart. Waste less. 💚
   </footer>
 
-  <script src="js/add.js"></script>
-
+  <script src="js/add.js" type="module"></script>
 </body>
 </html>
-

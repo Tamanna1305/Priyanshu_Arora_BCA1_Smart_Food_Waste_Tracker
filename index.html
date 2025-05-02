@@ -2,70 +2,82 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart Food Waste Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Food Tracker</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body>
-
-  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">Smart Food Tracker</div>
     <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
       <li><a href="add.html">Add</a></li>
       <li><a href="alerts.html">Alerts</a></li>
       <li><a href="recipes.html">Recipes</a></li>
       <li><a href="donate.html">Donate</a></li>
     </ul>
+    <div class="user-profile">
+      <div class="profile-container">
+        <img src="profile.png" class="profile-avatar">
+        <span id="userEmail">Guest</span>
+      </div>
+      <div class="dropdown">
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </div>
   </nav>
 
-  <!-- HERO SECTION -->
   <section class="hero">
-    <h1>Welcome to Smart Food Waste Tracker</h1>
-    <p>Track your food, reduce waste, and make a difference 🌍</p>
+    <h1 data-aos="fade-up">Smart Food Tracker</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Track your food, reduce waste, and cook smarter.</p>
+    <a href="add.html" class="btn" data-aos="fade-up" data-aos-delay="200">Add Food Item</a>
   </section>
 
-  <!-- DASHBOARD STATS -->
   <section class="dashboard">
-    <div class="stat-box">
-      <h2 id="totalItems">0</h2>
-      <p>Items Added</p>
-    </div>
-    <div class="stat-box">
-      <h2 id="expiringSoon">0</h2>
-      <p>Expiring Soon</p>
-    </div>
-    <div class="stat-box">
-      <h2 id="totalDonations">0</h2>
-      <p>Items Donated</p>
+    <h2 data-aos="fade-up">Your Food Dashboard</h2>
+    <div class="stats">
+      <div class="stat-card" data-aos="fade-up" id="itemsAddedCard">
+        <i class="fas fa-utensils icon"></i>
+        <h3>Items Added</h3>
+        <p id="totalItems">0</p>
+        <div class="hover-content" id="itemsAddedList">
+          <p>No items added yet.</p>
+        </div>
+      </div>
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="100" id="expiringSoonCard">
+        <i class="fas fa-clock icon"></i>
+        <h3>Expiring Soon</h3>
+        <p id="expiringSoon">0</p>
+        <div class="hover-content" id="expiringSoonList">
+          <p>No items expiring soon.</p>
+        </div>
+      </div>
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="200" id="donationsCard">
+        <i class="fas fa-hand-holding-heart icon"></i>
+        <h3>Donations</h3>
+        <p id="totalDonations">0</p>
+        <div class="hover-content" id="donationsList">
+          <p>No donations yet.</p>
+        </div>
+      </div>
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="300" id="recipesCard">
+        <i class="fas fa-book-open icon"></i>
+        <h3>Recipes</h3>
+        <p id="availableRecipes">0</p>
+        <div class="hover-content" id="recipesList">
+          <p>No ingredients available for recipes.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- QUICK LINKS -->
-  <section class="quick-links">
-    <a href="add.html" class="card">➕ Add Food</a>
-    <a href="alerts.html" class="card">⚠️ View Expiry Alerts</a>
-    <a href="recipes.html" class="card">🍳 Smart Recipes</a>
-    <a href="donate.html" class="card">❤️ Donate Surplus</a>
-  </section>
-
-  <!-- FOOTER -->
   <footer>
     Smart Food Tracker | Eat smart. Waste less. 💚
   </footer>
 
-  <!-- SCRIPT -->
-  <script>
-    const items = JSON.parse(localStorage.getItem("foodItems")) || [];
-    const donations = JSON.parse(localStorage.getItem("donations")) || [];
-
-    const today = new Date().toISOString().split("T")[0];
-    const expiring = items.filter(item => item.expiry <= today).length;
-
-    document.getElementById("totalItems").textContent = items.length;
-    document.getElementById("expiringSoon").textContent = expiring;
-    document.getElementById("totalDonations").textContent = donations.length;
-  </script>
-
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/main.js" type="module"></script>
 </body>
 </html>

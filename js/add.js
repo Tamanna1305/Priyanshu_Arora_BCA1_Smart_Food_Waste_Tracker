@@ -1,75 +1,142 @@
+import { addFoodItem } from './api/foodItems.js';
+import { showToast } from './utils/toast.js';
 
-    const statusText = document.getElementById("voice-status");
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition;
+try {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = true;
+  } else {
+    console.warn('SpeechRecognition API not supported in this browser.');
+  }
+} catch (error) {
+  console.error('Error initializing SpeechRecognition:', error);
+}
 
-    function speakFeedback(text) {
-      const msg = new SpeechSynthesisUtterance(text);
-      window.speechSynthesis.speak(msg);
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Add.js loaded');
+  const form = document.querySelector('.food-form');
+  const foodSelect = document.getElementById('food');
+  const customFoodContainer = document.getElementById('customFoodContainer');
+  const customFoodInput = document.getElementById('customFood');
+  const voiceFoodBtn = document.getElementById('voiceFoodBtn');
+  const voiceQtyBtn = document.getElementById('voiceQtyBtn');
+  const voiceStatus = document.getElementById('voice-status');
+  const userEmailSpan = document.getElementById('userEmail');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // Fetch user profile
+  if (localStorage.getItem('token')) {
+    fetch('http://localhost:3000/api/auth/me', {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+    })
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to fetch user');
+        return response.json();
+      })
+      .then(data => {
+        userEmailSpan.textContent = data.email;
+      })
+      .catch(error => {
+        console.error('Error fetching user:', error);
+        userEmailSpan.textContent = 'Guest';
+        localStorage.removeItem('token');
+      });
+  } else {
+    userEmailSpan.textContent = 'Guest';
+  }
+
+  // Logout
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    showToast('Logged out successfully!');
+    setTimeout(() => window.location.href = 'login.html', 1000);
+  });
+
+  if (!recognition) {
+    voiceFoodBtn.style.display = 'none';
+    voiceQtyBtn.style.display = 'none';
+  }
+
+  foodSelect.addEventListener('change', () => {
+    if (foodSelect.value === 'Other') {
+      customFoodContainer.style.display = 'block';
+      customFoodInput.required = true;
+    } else {
+      customFoodContainer.style.display = 'none';
+      customFoodInput.required = false;
+      customFoodInput.value = '';
+    }
+  });
+
+  if (recognition) {
+    voiceFoodBtn.addEventListener('click', () => startVoiceRecognition('food', voiceStatus));
+    voiceQtyBtn.addEventListener('click', () => startVoiceRecognition('quantity', voiceStatus));
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const foodValue = foodSelect.value === 'Other' ? customFoodInput.value : foodSelect.value;
+    if (!foodValue) {
+      showToast('Please select or enter a food item', 'error');
+      return;
     }
 
-    function startRecognition(targetInput, label, micBtn) {
-      if (!SpeechRecognition) {
-        alert("Sorry, your browser doesn't support speech recognition.");
-        return;
-      }
+    const foodItem = {
+      name: foodValue,
+      quantity: form.quantity.value,
+      purchaseDate: form.purchase.value,
+      expiryDate: form.expiry.value,
+    };
 
-      const recognition = new SpeechRecognition();
-      recognition.lang = "en-US";
-      recognition.interimResults = false;
-
-      statusText.textContent = `🎙 Listening for ${label}...`;
-      micBtn.classList.add("listening");
-      recognition.start();
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        targetInput.value = transcript;
-
-        const feedback = label === "food name"
-          ? `Tracking ${transcript}. Got it!`
-          : `Quantity set to ${transcript}!`;
-
-        statusText.textContent = `✅ ${feedback}`;
-        speakFeedback(feedback);
-      };
-
-      recognition.onerror = () => {
-        statusText.textContent = "❌ Oops! Didn't catch that. Try again.";
-        speakFeedback("Sorry, I didn't catch that.");
-      };
-
-      recognition.onend = () => {
-        micBtn.classList.remove("listening");
-      };
+    console.log('Sending food item:', foodItem);
+    try {
+      const result = await addFoodItem(foodItem);
+      console.log('Add item response:', result);
+      showToast('Food item added successfully!');
+      form.reset();
+      customFoodContainer.style.display = 'none';
+      customFoodInput.required = false;
+      foodSelect.value = '';
+    } catch (error) {
+      console.error('Add item error:', error);
+      showToast('Failed to add food item: ' + error.message, 'error');
     }
+  });
+});
 
-    document.getElementById("voiceFoodBtn").addEventListener("click", function () {
-      startRecognition(document.getElementById("food"), "food name", this);
-    });
+function startVoiceRecognition(fieldId, statusElement) {
+  if (!recognition) return;
 
-    document.getElementById("voiceQtyBtn").addEventListener("click", function () {
-      startRecognition(document.getElementById("quantity"), "quantity", this);
-    });
+  const input = fieldId === 'food' && document.getElementById('food').value === 'Other' 
+    ? document.getElementById('customFood') 
+    : document.getElementById(fieldId);
+  const micBtn = document.querySelector(`#voice${fieldId === 'food' ? 'Food' : 'Qty'}Btn`);
 
-    // Save to localStorage on form submit
-    document.querySelector(".food-form").addEventListener("submit", function (e) {
-      e.preventDefault();
+  recognition.onstart = () => {
+    statusElement.textContent = 'Listening...';
+    micBtn.classList.add('listening');
+  };
 
-      const food = document.getElementById("food").value.trim();
-      const quantity = document.getElementById("quantity").value.trim();
-      const purchase = document.getElementById("purchase").value;
-      const expiry = document.getElementById("expiry").value;
+  recognition.onresult = (event) => {
+    const transcript = Array.from(event.results)
+      .map(result => result[0].transcript)
+      .join('');
+    input.value = transcript;
+    statusElement.textContent = `Heard: ${transcript}`;
+  };
 
-      if (!food || !quantity || !purchase || !expiry) {
-        alert("Please fill in all fields.");
-        return;
-      }
+  recognition.onerror = (event) => {
+    statusElement.textContent = `Error: ${event.error}`;
+    micBtn.classList.remove('listening');
+  };
 
-      const newItem = { food, quantity, purchase, expiry };
-      const existingItems = JSON.parse(localStorage.getItem("foodItems")) || [];
-      existingItems.push(newItem);
-      localStorage.setItem("foodItems", JSON.stringify(existingItems));
+  recognition.onend = () => {
+    statusElement.textContent = '';
+    micBtn.classList.remove('listening');
+  };
 
-      alert("Food item tracked successfully!");
-      this.reset();
-    });
+  recognition.start();
+}

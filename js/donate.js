@@ -1,82 +1,78 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const donationForm = document.getElementById("donationForm");
-    const thankYouMessage = document.getElementById("thankYouMessage");
-    const historyTableBody = document.querySelector("#historyTable tbody");
-    const totalDonations = document.getElementById("totalDonations");
-  
-    loadDonationHistory();
-  
-    donationForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-  
-      const food = document.getElementById("food").value.trim();
-      const quantity = document.getElementById("quantity").value.trim();
-      const location = document.getElementById("location").value.trim();
-      const datetime = document.getElementById("datetime").value;
-  
-      const donation = { food, quantity, location, datetime };
-  
-      const existing = JSON.parse(localStorage.getItem("donations")) || [];
-      existing.push(donation);
-      localStorage.setItem("donations", JSON.stringify(existing));
-  
-      donationForm.reset();
-      thankYouMessage.classList.remove("hidden");
-      thankYouMessage.classList.add("show");
-  
-      loadDonationHistory();
-      runConfetti();
-  
-      setTimeout(() => {
-        thankYouMessage.classList.remove("show");
-        thankYouMessage.classList.add("hidden");
-      }, 4000);
+import { fetchFoodItems } from './api/foodItems.js';
+import { showToast } from './utils/toast.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  console.log('Donate.js loaded');
+  const form = document.querySelector('.donate-form');
+  const foodItemSelect = document.getElementById('foodItem');
+  const userEmailSpan = document.getElementById('userEmail');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // Fetch user profile
+  if (localStorage.getItem('token')) {
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/me', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+      });
+      if (!response.ok) throw new Error(await response.text());
+      const { email } = await response.json();
+      userEmailSpan.textContent = email;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      userEmailSpan.textContent = 'Guest';
+      localStorage.removeItem('token');
+      showToast('Session expired. Please log in.', 'error');
+      setTimeout(() => window.location.href = 'login.html', 2000);
+    }
+  } else {
+    userEmailSpan.textContent = 'Guest';
+  }
+
+  // Logout
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    showToast('Logged out successfully!');
+    setTimeout(() => window.location.href = 'login.html', 1000);
+  });
+
+  try {
+    const foodItems = await fetchFoodItems();
+    console.log('Food items received:', foodItems);
+    foodItems.forEach(item => {
+      const option = document.createElement('option');
+      option.value = item._id;
+      option.textContent = `${item.name} (${item.quantity})`;
+      foodItemSelect.appendChild(option);
     });
-  
-    function loadDonationHistory() {
-      let donations = JSON.parse(localStorage.getItem("donations")) || [];
-  
-      const today = new Date();
-      donations = donations.filter(donation => {
-        const donationDate = new Date(donation.datetime);
-        const daysDiff = (today - donationDate) / (1000 * 60 * 60 * 24);
-        return daysDiff <= 7;
-      });
-  
-      localStorage.setItem("donations", JSON.stringify(donations));
-  
-      historyTableBody.innerHTML = "";
-  
-      donations.forEach((donation, index) => {
-        const row = document.createElement("tr");
-  
-        row.innerHTML = `
-          <td>${donation.food}</td>
-          <td>${donation.quantity}</td>
-          <td>${donation.location}</td>
-          <td>${new Date(donation.datetime).toLocaleString()}</td>
-          <td><button class="delete-btn" onclick="deleteDonation(${index})">Delete</button></td>
-        `;
-  
-        historyTableBody.appendChild(row);
-      });
-  
-      totalDonations.textContent = `Total Donations: ${donations.length}`;
+  } catch (error) {
+    console.error('Error loading food items:', error);
+    showToast('Failed to load food items: ' + error.message, 'error');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const foodItemId = foodItemSelect.value;
+    if (!foodItemId) {
+      showToast('Please select a food item', 'error');
+      return;
     }
-  
-    window.deleteDonation = function(index) {
-      let donations = JSON.parse(localStorage.getItem("donations")) || [];
-      donations.splice(index, 1);
-      localStorage.setItem("donations", JSON.stringify(donations));
-      loadDonationHistory();
-    }
-  
-    function runConfetti() {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
+
+    try {
+      const response = await fetch('http://localhost:3000/api/donations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ foodItemId }),
       });
+
+      if (!response.ok) throw new Error(await response.text());
+      showToast('Donation successful!');
+      form.reset();
+    } catch (error) {
+      console.error('Error donating item:', error);
+      showToast('Failed to donate item: ' + error.message, 'error');
     }
   });
-  
+});

@@ -2,36 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart Recipes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipes - Smart Food Tracker</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body>
-  <header>
-    <h1>Smart Food Tracker</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="alerts.html">Expiry Alerts</a></li>
-        <li><a href="recipes.html">Recipes</a></li>
-        <li><a href="donate.html">Donate</a></li>
-      </ul>
-    </nav>
-  </header>
+  <nav class="navbar">
+    <div class="logo">Smart Food Tracker</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="add.html">Add</a></li>
+      <li><a href="alerts.html">Alerts</a></li>
+      <li><a href="recipes.html" class="active">Recipes</a></li>
+      <li><a href="donate.html">Donate</a></li>
+    </ul>
+    <div class="user-profile">
+      <div class="profile-container">
+        <img src="profile.png" alt="Profile Avatar" class="profile-avatar">
+        <span id="userEmail">Guest</span>
+      </div>
+      <div class="dropdown">
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
 
-  <main>
-    <section class="recipe-heading">
-      <h2>Smart Recipe Suggestions</h2>
-      <p>Based on your tracked food items nearing expiry</p>
-    </section>
-    
-    <section id="recipe-suggestions" class="recipe-container"></section>
-  </main>
+  <section class="recipes-section">
+    <h1 data-aos="fade-up">Your Recipes</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Discover delicious recipes based on your available ingredients.</p>
+    <div class="recipes-list" id="recipesList" data-aos="fade-up" data-aos-delay="200">
+      <p>No ingredients available for recipes.</p>
+    </div>
+  </section>
 
   <footer>
-    <p>&copy; 2025 Smart Food Tracker | Reduce Waste, Cook Smart 🍲</p>
+    Smart Food Tracker | Eat smart. Waste less. 💚
   </footer>
 
-  <script src="js/recipes.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/recipes.js" type="module"></script>
 </body>
 </html>
