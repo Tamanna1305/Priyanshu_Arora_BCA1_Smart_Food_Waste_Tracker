@@ -1,4 +1,4 @@
-# Priyanshu_Arora_BCA1_Smart_Food_Waste_Tracker
+# Priyanshu_BCA1_Smart_Food_Waste_Tracker
 
 ## Team Members
 - Tamanna 2401201101
