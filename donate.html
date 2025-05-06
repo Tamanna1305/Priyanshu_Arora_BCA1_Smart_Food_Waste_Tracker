@@ -20,8 +20,8 @@
     <div class="user-profile">
       <div class="profile-container">
         <img src="profile.png" alt="Profile Avatar" class="profile-avatar">
-      <span id="userEmail">Guest</span>
-    </div>
+        <span id="userEmail">Guest</span>
+      </div>
       <div class="dropdown">
         <button id="logoutBtn" class="logout-btn">Logout</button>
       </div>
@@ -33,6 +33,16 @@
     <form class="donate-form styled-form">
       <label for="foodItem">Select Food Item:</label>
       <select id="foodItem" name="foodItem" required></select>
+
+      <label for="pickupDate">Pickup Date:</label>
+      <input type="date" id="pickupDate" name="pickupDate" required />
+
+      <label for="pickupTime">Pickup Time:</label>
+      <input type="time" id="pickupTime" name="pickupTime" required />
+
+      <label for="pickupAddress">Pickup Address:</label>
+      <input type="text" id="pickupAddress" name="pickupAddress" required placeholder="Enter your address" />
+
       <button type="submit" class="btn">Donate</button>
     </form>
   </section>

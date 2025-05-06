@@ -3,10 +3,16 @@ import { showToast } from './utils/toast.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('Alerts.js loaded');
-  const alertsList = document.getElementById('alertsList');
+
+  const expiredList = document.getElementById('expired-items');
+  const expiringSoonList = document.getElementById('expiring-soon-items');
+  const freshList = document.getElementById('fresh-items');
   const userEmailSpan = document.getElementById('userEmail');
   const logoutBtn = document.getElementById('logoutBtn');
+
   const today = new Date();
+  const threeDaysFromNow = new Date(today);
+  threeDaysFromNow.setDate(today.getDate() + 3);
 
   // Fetch user profile
   if (localStorage.getItem('token')) {
@@ -38,28 +44,39 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const foodItems = await fetchFoodItems();
     console.log('Food items received:', foodItems);
-    const threeDaysFromNow = new Date(today);
-    threeDaysFromNow.setDate(today.getDate() + 3);
-    const expiringItems = foodItems.filter(item => {
-      const expiryDate = new Date(item.expiryDate);
-      return expiryDate <= threeDaysFromNow && expiryDate >= today;
-    });
 
-    if (expiringItems.length === 0) {
-      alertsList.innerHTML = '<p>No items expiring soon.</p>';
+    if (foodItems.length === 0) {
+      expiredList.innerHTML = '<p>No expired items.</p>';
+      expiringSoonList.innerHTML = '<p>No items expiring soon.</p>';
+      freshList.innerHTML = '<p>No fresh items.</p>';
       return;
     }
 
-    expiringItems.forEach(item => {
+    foodItems.forEach(item => {
+      const expiryDate = new Date(item.expiryDate);
+      let container;
+      let cardColorClass;
+
+      if (expiryDate < today) {
+        container = expiredList;
+        cardColorClass = 'expired';
+      } else if (expiryDate <= threeDaysFromNow) {
+        container = expiringSoonList;
+        cardColorClass = 'expiring-soon';
+      } else {
+        container = freshList;
+        cardColorClass = 'fresh';
+      }
+
       const card = document.createElement('div');
-      card.className = 'alert-card';
+      card.className = `alert-card ${cardColorClass}`;
       card.innerHTML = `
         <h3>${item.name}</h3>
         <p>Quantity: ${item.quantity}</p>
-        <p>Expires: ${new Date(item.expiryDate).toLocaleDateString()}</p>
+        <p>Expires: ${expiryDate.toLocaleDateString()}</p>
         <button class="btn" onclick="deleteItem('${item._id}')">Delete</button>
       `;
-      alertsList.appendChild(card);
+      container.appendChild(card);
     });
   } catch (error) {
     console.error('Error loading alerts:', error);
@@ -67,6 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+// Make deleteItem globally accessible
 window.deleteItem = async (id) => {
   try {
     await deleteFoodItem(id);

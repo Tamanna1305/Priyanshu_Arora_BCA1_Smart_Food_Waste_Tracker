@@ -55,11 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => window.location.href = 'login.html', 1000);
   });
 
-  if (!recognition) {
-    voiceFoodBtn.style.display = 'none';
-    voiceQtyBtn.style.display = 'none';
-  }
-
+  // Toggle custom input
   foodSelect.addEventListener('change', () => {
     if (foodSelect.value === 'Other') {
       customFoodContainer.style.display = 'block';
@@ -71,15 +67,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  if (recognition) {
+  // Voice input setup
+  if (!recognition) {
+    voiceFoodBtn.style.display = 'none';
+    voiceQtyBtn.style.display = 'none';
+  } else {
     voiceFoodBtn.addEventListener('click', () => startVoiceRecognition('food', voiceStatus));
     voiceQtyBtn.addEventListener('click', () => startVoiceRecognition('quantity', voiceStatus));
   }
 
+  // Form submission
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const foodValue = foodSelect.value === 'Other' ? customFoodInput.value : foodSelect.value;
-    console.log(foodValue)
+
     if (!foodValue) {
       showToast('Please select or enter a food item', 'error');
       return;
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const foodItem = {
       name: foodValue,
       quantity: form.quantity.value,
-      purchaseDate: form.purchase.value,
+      purchaseDate: form.manufacturing.value,
       expiryDate: form.expiry.value,
     };
 
@@ -111,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function startVoiceRecognition(fieldId, statusElement) {
   if (!recognition) return;
 
-  const input = fieldId === 'food' && document.getElementById('food').value === 'Other' 
-    ? document.getElementById('customFood') 
+  const input = fieldId === 'food' && document.getElementById('food').value === 'Other'
+    ? document.getElementById('customFood')
     : document.getElementById(fieldId);
   const micBtn = document.querySelector(`#voice${fieldId === 'food' ? 'Food' : 'Qty'}Btn`);
 

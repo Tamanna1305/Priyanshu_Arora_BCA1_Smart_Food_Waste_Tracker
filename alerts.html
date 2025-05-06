@@ -20,8 +20,8 @@
     <div class="user-profile">
       <div class="profile-container">
         <img src="profile.png" alt="Profile Avatar" class="profile-avatar">
-      <span id="userEmail">Guest</span>
-    </div>
+        <span id="userEmail">Guest</span>
+      </div>
       <div class="dropdown">
         <button id="logoutBtn" class="logout-btn">Logout</button>
       </div>
@@ -29,8 +29,14 @@
   </nav>
 
   <section class="alerts-section">
-    <h1>Expiring Soon</h1>
-    <div id="alertsList"></div>
+    <h2 class="alert-header expired-title">Expired</h2>
+    <div id="expired-items" class="alert-container"></div>
+
+    <h2 class="alert-header expiring-soon-title">Expiring Soon</h2>
+    <div id="expiring-soon-items" class="alert-container"></div>
+
+    <h2 class="alert-header fresh-title">Fresh</h2>
+    <div id="fresh-items" class="alert-container"></div>
   </section>
 
   <footer>

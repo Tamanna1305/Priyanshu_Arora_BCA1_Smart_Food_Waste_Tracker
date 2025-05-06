@@ -15,6 +15,12 @@ const donationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  pickupDate: {
+    type: String,
+  },
+  pickupTime: {
+    type: String,
+  },
   donatedAt: {
     type: Date,
     default: Date.now,
